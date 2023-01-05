@@ -8,9 +8,9 @@ class ListAllUsersUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ user_id }: IRequest): User[] {
-    const isUserAdmin = this.usersRepository.findById(user_id);
+    const isUser = this.usersRepository.findById(user_id);
 
-    if (!isUserAdmin.admin || !isUserAdmin) {
+    if (!isUser.admin || !isUser) {
       throw new Error("Mensagem do erro");
     }
 
