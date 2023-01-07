@@ -46,7 +46,7 @@
     }
   },
   "paths": {
-    "/users": {
+    "/": {
       "get": {
         "tags": ["Users"],
         "description": "Return all users if the user is an admin",
@@ -76,9 +76,7 @@
             }
           }
         }
-      }
-    },
-    "/": {
+      },
       "post": {
         "tags": ["Users"],
         "summary": "Create an user",
