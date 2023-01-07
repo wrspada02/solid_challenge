@@ -1,0 +1,195 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Application",
+    "summary": "Application",
+    "description": "Make operations as an user",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Users Support",
+      "email": "api_user@support.com"
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type":"string"
+          },
+          "admin": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "description": "Return all users if the user is an admin",
+        "summary": "Get an users List",
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "You'd get an error because your user either not exists or isn't an admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create an user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "User Name example",
+                  "email": "User Email example"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully user created"
+          },
+          "400": {
+            "description": "You'd get an error because either your body parameter is wrong or already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/:user_id/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Turn an user as an admin",
+        "parameters": [
+          {
+          "name": "user_id",
+          "in": "path",
+          "description": "ID of user that needs to be updated",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+        "responses": {
+          "201": {
+            "description": "Successfully user turned as admin"
+          },
+          "400": {
+            "description": "You'd get an error because either your user id not exists or already is an admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/:user_id": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get an user object",
+        "parameters": [
+          {
+          "name": "user_id",
+          "in": "path",
+          "description": "ID of user that needs to list",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+        "responses": {
+          "200": {
+            "description": "An user object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "You'd get an error because your user not exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
